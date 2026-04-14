@@ -7,8 +7,7 @@ resource "aws_route_table" "public_rtb" {
   }
 
   tags = {
-    Terraform = "true"
-    Name      = "route-table"
+    Name      = "public-rtb"
   }
 }
 
@@ -20,8 +19,7 @@ resource "aws_route_table" "private_rtb" {
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
-    Name      = "demo_private_rtb"
-    Terraform = "true"
+    Name      = "private-rtb"
   }
 }
 

@@ -6,7 +6,6 @@ resource "aws_subnet" "private_subnet" {
 
 
   tags = {
-    Terraform = "true"
     Name      = "private-${each.key}"
   }
 }
@@ -19,7 +18,6 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = each.key
   map_public_ip_on_launch = true
   tags = {
-    Terraform = "true"
     Name      = "public-${each.key}"
   }
 }

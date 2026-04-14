@@ -1,5 +1,12 @@
 provider "aws" {
   region = "ap-southeast-5"
+
+  default_tags {
+    tags = {
+      Terraform = "true"
+      Project   = "Lab"
+    }
+  }
 }
 
 data "aws_availability_zones" "zone" {
@@ -27,29 +34,64 @@ module "vpc" {
 }
 
 module "sg" {
-  source = "./modules/sg"
+  source = "./modules/sg_module"
   vpc_id = module.vpc.vpc_id
 }
 
-module "web_server" {
-  source          = "./modules/ec2"
-  ami             = data.aws_ami.amazon_linux.id
-  instance_type   = "t3.micro"
-  subnet_id = module.vpc.public_subnet[0]
-  security_groups = [module.sg.public_sg_id]
-  key_name        = "NewKey"
-  user_data       = <<-EOF
+# module "web_server" {
+#   source          = "./modules/ec2_module"
+#   ami             = data.aws_ami.amazon_linux.id
+#   instance_type   = "t3.micro"
+#   subnet_id = module.vpc.public_subnet[0]
+#   security_groups = [module.sg.public_sg_id]
+#   key_name        = ${var.key_name}
+#   user_data       = <<-EOF
+#                       #!/bin/bash
+#                       sudo yum update -y
+#                       sudo yum install -y httpd
+#                       sudo systemctl start httpd
+#                       sudo systemctl enable httpd
+
+#                       aws s3 sync s3://${var.s3_bucket_name}  /var/www/html/
+
+#                       mv /var/www/html/james_hoh_portfolio.html /var/www/html/index.html
+
+#                       chown -R apache:apache /var/www/html/
+#                       EOF
+#     tags = {
+#     "name" = "web-server"
+#   }
+
+# }
+
+module "alb" {
+  source            = "./modules/alb_module"
+  vpc_id            = module.vpc.vpc_id
+  public_subnet_ids = module.vpc.public_subnet
+  lb_sg             = module.sg.public_sg_id
+}
+
+module "asg" {
+  source           = "./modules/asg_module"
+  desired_capacity = 2
+  max_size         = 2
+  min_size         = 2
+  subnet_ids       = module.vpc.private_subnet
+  security_groups  = [module.sg.private_sg_id]
+  target_group_arn = module.alb.target_group_arn
+  user_data        = <<-EOF
                       #!/bin/bash
-                      dnf update -y
-                      dnf install -y httpd
+                      sudo yum update -y
+                      sudo yum install -y httpd
+                      sudo systemctl start httpd
+                      sudo systemctl enable httpd
 
-                      systemctl start httpd
-                      systemctl enable httpd
+                      aws s3 sync s3://${var.s3_bucket_name}  /var/www/html/
 
-                      echo "Hello from Terraform" > /var/www/html/index.html
+                      mv /var/www/html/james_hoh_portfolio.html /var/www/html/index.html
+
+                      chown -R apache:apache /var/www/html/
                       EOF
-    tags = {
-    "name" = "web-server"
-  }
-
+  ami              = data.aws_ami.amazon_linux.id
+  instance_type    = "t3.micro"
 }

@@ -3,11 +3,11 @@ variable "instance_type" {
 }
 
 variable "ami" {
-    type = string
+  type = string
 }
 
 variable "subnet_id" {
-    type = string
+  type = string
 }
 
 variable "security_groups" {
@@ -15,7 +15,7 @@ variable "security_groups" {
 }
 
 variable "key_name" {
-  
+
 }
 
 variable "user_data" {
