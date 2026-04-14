@@ -1,4 +1,41 @@
-# Infrastructure Update Log
+# AWS Scalable Web Infrastructure with Terraform
+
+This project implements a highly available and scalable web server architecture on AWS using Terraform. It features a modular design that facilitates easy management and scalability of the underlying infrastructure.
+
+## Project Overview
+
+The architecture transitions from a single-node web server to a robust, load-balanced environment:
+- **High Availability:** Resources are distributed across multiple Availability Zones.
+- **Security:** Web servers are isolated in private subnets, accessible only through a public Application Load Balancer.
+- **Scalability:** An Auto Scaling Group (ASG) manages instance lifecycle and capacity based on demand.
+- **Automation:** User data scripts handle the automatic deployment of web content from an S3 bucket.
+
+## File Structure
+
+The project is organized into reusable modules:
+
+```text
+.
+├── main.tf                 # Root module configuration
+├── variables.tf            # Global variables
+├── README.md               # Project documentation
+└── modules/
+   ├── vpc_module/         # VPC, Subnets, and Networking
+   ├── sg_module/          # Security Groups 
+   ├── alb_module/         # Application Load Balancer & Target Groups
+   ├── asg_module/         # Auto Scaling Group & Launch Template
+   └── ec2_module/         # Legacy Standalone EC2 module 
+```
+
+## Prerequisites
+
+- [Terraform](https://www.terraform.io/downloads.html) installed.
+- AWS CLI configured with appropriate credentials.
+- An S3 bucket containing the website assets (portfolio HTML files).
+
+---
+
+## Infrastructure Update Log
 
 ## Phase 1: Initial Architecture (Single Node Web Server)
 *This phase represents the infrastructure state prior to implementing load balancing and auto-scaling. The application was active, but running on a single public endpoint.*
