@@ -73,8 +73,8 @@ module "alb" {
 
 module "asg" {
   source           = "./modules/asg_module"
-  desired_capacity = 2
-  max_size         = 2
+  desired_capacity = 4
+  max_size         = 6
   min_size         = 2
   subnet_ids       = module.vpc.private_subnet
   security_groups  = [module.sg.private_sg_id]

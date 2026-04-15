@@ -10,6 +10,9 @@ The architecture transitions from a single-node web server to a robust, load-bal
 - **Scalability:** An Auto Scaling Group (ASG) manages instance lifecycle and capacity based on demand.
 - **Automation:** User data scripts handle the automatic deployment of web content from an S3 bucket.
 
+## Architecture Diagram
+![AWS Architecture](./images/architecture.png)
+
 ## File Structure
 
 The project is organized into reusable modules:
