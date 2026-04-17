@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_launch_template" "web_lt" {
   name_prefix   = "web-template-"
   image_id      = var.ami
@@ -10,7 +8,7 @@ resource "aws_launch_template" "web_lt" {
   user_data = base64encode(var.user_data)
 
   iam_instance_profile {
-    arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/WebServerS3Access"
+    name = var.iam_instance_profile_name
   }
 
   tag_specifications {

@@ -25,3 +25,8 @@ variable "user_data" {
 variable "tags" {
   type = map(string)
 }
+
+variable "iam_instance_profile_name" {
+  type    = string
+  default = null
+}

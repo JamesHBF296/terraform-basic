@@ -6,7 +6,7 @@ resource "aws_subnet" "private_subnet" {
 
 
   tags = {
-    Name      = "private-${each.key}"
+    Name = "private-${each.key}"
   }
 }
 
@@ -18,6 +18,6 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = each.key
   map_public_ip_on_launch = true
   tags = {
-    Name      = "public-${each.key}"
+    Name = "public-${each.key}"
   }
 }

@@ -7,7 +7,7 @@ resource "aws_route_table" "public_rtb" {
   }
 
   tags = {
-    Name      = "public-rtb"
+    Name = "public-rtb"
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_route_table" "private_rtb" {
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
-    Name      = "private-rtb"
+    Name = "private-rtb"
   }
 }
 

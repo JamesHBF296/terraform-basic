@@ -33,3 +33,8 @@ variable "subnet_ids" {
 variable "target_group_arn" {
   type = string
 }
+
+variable "iam_instance_profile_name" {
+  description = "Name of the IAM instance profile to attach to the instances"
+  type        = string
+}

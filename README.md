@@ -11,7 +11,7 @@ The architecture transitions from a single-node web server to a robust, load-bal
 - **Automation:** User data scripts handle the automatic deployment of web content from an S3 bucket.
 
 ## Architecture Diagram
-![AWS Architecture](./images/architecture.png)
+![AWS Architecture](./images/architecture v1.0.png)
 
 ## File Structure
 
